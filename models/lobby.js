@@ -7,9 +7,10 @@ const roomSchema = new Schema({
     limit: Number,
     question: String,
     answer: String,
-    users: [{type: Schema.Types.ObjectId, ref: 'user'}],
+    // users: [{type: Schema.Types.ObjectId, ref: 'user'}],
     private: Boolean, 
-    host: {type: Schema.Types.ObjectId, ref: 'user'}
+    host: String,
+    // {type: Schema.Types.ObjectId, ref: 'user'}
 })
 const Room = model("room", roomSchema);
 

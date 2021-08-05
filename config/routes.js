@@ -6,11 +6,13 @@ const { response } = require("express");
 
 router.post("/newLobby", async (req, res, next) => {
 try{ const {topic, subject, name, limit, question, answer, private} = req.body
-  let sessionId = req.session.loggedInUser._id
-  let response = await Lobby.create({topic, subject, name, limit, question, answer, private, host: sessionId, users: [sessionId]})
-  console.log(response, 'This is your Lobby');
-  res.status(200).json(response);
+  // let sessionId = req.session.loggedInUser._id
+  let lobby = await Lobby.create({topic, subject, name, limit, question, answer, private})
+  // host: sessionId, users: [sessionId]
+  console.log(lobby, 'This is your Lobby');
+  res.status(200).json(lobby);
 } catch (error){
+  console.log('Invalid Lobby 14');
   res.status(500).json(error)
 }
 });
@@ -32,9 +34,10 @@ router.post('/allLobbies', async (req, res) =>{
 
 router.post('/newUser', async (req, res)=> {
 try{ const {username, description} = req.body
-  let response = await User.create({username, description})
-  req.session.loggedInUser = response
-  res.status(200).json(response)
+let response = await User.create({username, description})
+req.session.loggedInUser = response
+console.log('created a new user', response);
+res.status(200).json(response)
 } catch (error){
     res.status(500).json(error)
 }
@@ -48,6 +51,16 @@ router.get('/lobby/:name', async (req, res) => {
   } catch (error) {
     res.status(500).json(error)
   }
+})
+
+router.get('/lobby/:lobbyId', async (req, res)=> {
+  const {lobbyId} = req.params
+  try{
+  let response = await Lobby.findOne({lobbyId}).populate('users')
+  res.status(200).json(response)
+}catch (error) {
+  res.status(500).json(error)
+}
 })
 
 router.get('/allLobbyMessages/:room', async (req, res)=> {
