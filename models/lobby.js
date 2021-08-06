@@ -9,7 +9,7 @@ const roomSchema = new Schema({
     answer: String,
     users: [{type: Schema.Types.ObjectId, ref: 'user'}],
     private: Boolean, 
-    host: {type: Schema.Types.ObjectId, ref: 'user'}
+    host:{ type: Schema.Types.ObjectId, ref: 'user'}
 })
 const Room = model("room", roomSchema);
 

@@ -30,7 +30,7 @@ router.post('/allLobbies', async (req, res) =>{
       if(lobby.users.length !== 0){
         return lobby 
       } else {
-        await Lobby.findByIdAndRemove(lobby._id)
+        // await Lobby.findByIdAndRemove(lobby._id)
       }
     })
   res.status(200).json(lobbies)
@@ -50,10 +50,10 @@ res.status(200).json(response)
 }
 })
 
-router.get('/lobby/:name', async (req, res) => {
-  const {name} = req.params
+router.get('/lobby/:id', async (req, res) => {
+  const {id}= req.params
   try {
-    let response = await Lobby.findOne({name}).populate('users')
+    let response = await Lobby.findById(id).populate('users')
     res.status(200).json(response)  
   } catch (error) {
     res.status(500).json(error)
