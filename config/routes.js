@@ -29,6 +29,8 @@ router.post('/allLobbies', async (req, res) =>{
     let lobbies = response.filter((lobby) => {
       if(lobby.users.length !== 0){
         return lobby 
+      } else {
+        await Lobby.findByIdAndRemove(lobby._id)
       }
     })
   res.status(200).json(lobbies)
